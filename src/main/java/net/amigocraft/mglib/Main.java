@@ -112,7 +112,7 @@ public class Main extends JavaPlugin {
 			Main.log("The configured logging level is invalid!", LogLevel.WARNING);
 		}
 		VANILLA_SPECTATING_DISABLED = getConfig().getBoolean("disable-vanilla-spectating");
-		SERVER_LOCALE = getConfig().getString("locale").replace("_", "").replace("-", ""); // normalize
+		SERVER_LOCALE = getConfig().getString("locale").replace("_", "").replace("-", "").toLowerCase(); // normalize
 
 		locale = new BukkitLocale("MGLib");
 		locale.initialize();

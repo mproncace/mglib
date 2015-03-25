@@ -42,7 +42,7 @@ import org.json.simple.parser.ParseException;
 
 public class BukkitLocalizable implements Localizable {
 
-	private static final String FALLBACK_LOCALE = "enUS";
+	private static final String FALLBACK_LOCALE = "enus";
 
 	private Locale parent;
 	private String key;
@@ -76,6 +76,7 @@ public class BukkitLocalizable implements Localizable {
 	@Override
 	public String localizeIn(String locale, String... replacements) {
 		locale = locale.replace("_", "").replace("-", "").toLowerCase(); // normalize locale code
+		System.out.println("going in");
 		if (locales.containsKey(locale)) {
 			String message = locales.get(locale);
 			for (int i = 0; i < replacements.length; i++) {
@@ -83,16 +84,17 @@ public class BukkitLocalizable implements Localizable {
 			}
 			return message;
 		}
-		else if (!locale.equals(FALLBACK_LOCALE)) {
-			if (!locale.equals(Main.getServerLocale())) {
-				return this.localizeIn(Main.getServerLocale(), replacements);
-			}
-			else {
-				return this.localizeIn(FALLBACK_LOCALE, replacements);
-			}
+		else if (locale.equals(FALLBACK_LOCALE)) {
+			System.out.println("FALLBACK");
+			return this.getKey();
+		}
+		else if (locale.equals(Main.getServerLocale())) {
+			System.out.println("serverLocale");
+			return this.localizeIn(FALLBACK_LOCALE, replacements);
 		}
 		else {
-			return this.getKey();
+			System.out.println("Something else");
+			return this.localizeIn(Main.getServerLocale(), replacements);
 		}
 	}
 
