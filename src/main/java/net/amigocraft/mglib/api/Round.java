@@ -1342,7 +1342,7 @@ public class Round implements Metadatable {
 	}
 
 	public boolean equals(Object p) {
-		return p instanceof Round && plugin.equals(((Round)p).getArena()) && arena.equals(((Round)p).getArena());
+		return p instanceof Round && plugin.equals(((Round)p).getPlugin()) && arena.equals(((Round)p).getArena());
 	}
 
 	public int hashCode() {
