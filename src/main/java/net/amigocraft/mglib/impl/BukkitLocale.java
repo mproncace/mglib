@@ -35,6 +35,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -50,13 +51,7 @@ public class BukkitLocale extends Locale {
 	/**
 	 * The name of the plugin this locale manager belongs to.
 	 */
-	public String plugin;
-
-	/**
-	 * An enumeration of message keys found in the default locale, but not the
-	 * defined one.
-	 */
-	public final List<String> undefinedMessages = new ArrayList<String>();
+	private String plugin;
 
 	/**
 	 * Creates a new locale manager for the given plugin.
@@ -71,6 +66,10 @@ public class BukkitLocale extends Locale {
 		this.plugin = plugin;
 		loadFromDataFolder();
 		loadFromInternal();
+	}
+
+	public String getPlugin() {
+		return this.plugin;
 	}
 
 	@Override
@@ -217,5 +216,19 @@ public class BukkitLocale extends Locale {
 				messages.get(key).addLocale(language, e.getValue().toString());
 			}
 		}
+	}
+
+	@Override
+	public boolean equals(Object otherLocale) {
+		if (!(otherLocale instanceof BukkitLocale)) {
+			return false;
+		}
+		BukkitLocale bl = (BukkitLocale)otherLocale;
+		return this.getPlugin().equals(bl.getPlugin());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getPlugin());
 	}
 }

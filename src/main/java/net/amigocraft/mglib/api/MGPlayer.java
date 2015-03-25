@@ -50,6 +50,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -565,15 +566,17 @@ public class MGPlayer implements Metadatable {
 
 	public boolean equals(Object p) {
 		if (p instanceof MGPlayer) {
-			MGPlayer t = (MGPlayer)p;
-			return name.equals(t.getName()) && arena.equals(t.getArena()) && isSpectating() == t.isSpectating();
+			MGPlayer mp = (MGPlayer)p;
+			return plugin.equals(mp.getPlugin())
+					&& name.equals(mp.getName())
+					&& arena.equals(mp.getArena())
+					&& isSpectating() == mp.isSpectating();
 		}
 		return false;
 	}
 
 	public int hashCode() {
-		return 41 * (plugin.hashCode() + name.hashCode() + arena.hashCode() +
-				Boolean.valueOf(isSpectating()).hashCode() + 41);
+		return Objects.hash(plugin, name, arena, spectating);
 	}
 
 	public Object getMetadata(String key) {

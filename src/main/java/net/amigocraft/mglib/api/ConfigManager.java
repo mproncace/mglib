@@ -25,6 +25,7 @@ package net.amigocraft.mglib.api;
 
 import net.amigocraft.mglib.MGUtil;
 
+import net.amigocraft.mglib.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -64,7 +65,6 @@ public class ConfigManager {
 	private boolean spectatorsOnSigns = true;
 	private boolean spectatorFlight = true;
 	private boolean teamDamage = true;
-	private String locale = "enUS";
 	private boolean randomSpawns = true;
 	private boolean overrideDeathEvent = false;
 	private boolean hunger = false;
@@ -1479,10 +1479,12 @@ public class ConfigManager {
 	 *
 	 * @return the locale to fall back to if the one defined in the MGLib config
 	 * cannot be loaded
+	 * @deprecated Obsolete since 0.5.0, as its value no longer affects anything
 	 * @since 0.3.0
 	 */
+	@Deprecated
 	public String getDefaultLocale() {
-		return locale;
+		return Main.getServerLocale();
 	}
 
 	/**
@@ -1491,10 +1493,11 @@ public class ConfigManager {
 	 *
 	 * @param locale the locale to fall back to if the one defined in the MGLib
 	 *               config cannot be loaded
+	 * @deprecated Obsolete since 0.5.0, as its value no longer affects anything
 	 * @since 0.3.0
 	 */
+	@Deprecated
 	public void setDefaultLocale(String locale) {
-		this.locale = locale;
 	}
 
 	/**

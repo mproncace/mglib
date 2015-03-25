@@ -69,6 +69,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a round within a minigame.
@@ -1341,10 +1342,10 @@ public class Round implements Metadatable {
 	}
 
 	public boolean equals(Object p) {
-		return p instanceof Round && arena.equals(((Round)p).getArena());
+		return p instanceof Round && plugin.equals(((Round)p).getArena()) && arena.equals(((Round)p).getArena());
 	}
 
 	public int hashCode() {
-		return 41 * (plugin.hashCode() + arena.hashCode() + 41);
+		return Objects.hash(plugin, arena);
 	}
 }

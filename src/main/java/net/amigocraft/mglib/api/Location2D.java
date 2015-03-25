@@ -23,6 +23,8 @@
  */
 package net.amigocraft.mglib.api;
 
+import java.util.Objects;
+
 import org.bukkit.Location;
 
 /**
@@ -266,8 +268,7 @@ public class Location2D {
 
 	@Override
 	public int hashCode() {
-		return 47 + (world.hashCode() * 61 +
-				(Float.valueOf(x).hashCode() * 53 + Float.valueOf(y).hashCode() * 67) * 93);
+		return Objects.hash(world, x, y);
 	}
 
 }

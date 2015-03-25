@@ -25,6 +25,7 @@ package net.amigocraft.mglib.impl;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.google.common.collect.Maps;
@@ -163,5 +164,20 @@ public class BukkitLocalizable implements Localizable {
 		else {
 			throw new IllegalArgumentException();
 		}
+	}
+
+	@Override
+	public boolean equals(Object otherLocalizable) {
+		if (!(otherLocalizable instanceof BukkitLocalizable)) {
+			return false;
+		}
+		BukkitLocalizable bl = (BukkitLocalizable)otherLocalizable;
+		return this.getParent().equals(bl.getParent())
+				&& this.getKey().equals(bl.getKey());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getParent(), this.getKey());
 	}
 }

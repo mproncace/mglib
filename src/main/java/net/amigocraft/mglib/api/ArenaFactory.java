@@ -23,6 +23,8 @@
  */
 package net.amigocraft.mglib.api;
 
+import java.util.Objects;
+
 import net.amigocraft.mglib.MGUtil;
 import net.amigocraft.mglib.Main;
 import net.amigocraft.mglib.exception.InvalidLocationException;
@@ -628,6 +630,22 @@ public class ArenaFactory {
 	 */
 	public void destroy() {
 		Minigame.getMinigameInstance(plugin).arenaFactories.remove(arena);
+	}
+
+	@Override
+	public boolean equals(Object otherArenaFactory) {
+		if (!(otherArenaFactory instanceof ArenaFactory)) {
+			return false;
+		}
+		ArenaFactory af = (ArenaFactory)otherArenaFactory;
+		return this.getPlugin().equals(af.getPlugin())
+				&& this.getArena().equals(af.getArena())
+				&& this.getWorld().equals(af.getWorld());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(plugin, arena, world);
 	}
 
 }

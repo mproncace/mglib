@@ -25,6 +25,7 @@ package net.amigocraft.mglib.api;
 
 import net.amigocraft.mglib.exception.NoSuchPlayerException;
 import net.amigocraft.mglib.exception.PlayerOfflineException;
+import net.amigocraft.mglib.impl.BukkitLocale;
 
 //TODO: rewrite this class to be less chaotic
 /**
@@ -35,6 +36,14 @@ import net.amigocraft.mglib.exception.PlayerOfflineException;
  * @since 0.3.0
  */
 public abstract class Locale {
+
+	/**
+	 * Returns the name of the plugin which this Locale belongs to.
+	 *
+	 * @return the name of the plugin which this Locale belongs to
+	 * @since 0.5.0
+	 */
+	public abstract String getPlugin();
 
 	/**
 	 * Retrieves the message with the given key from the
