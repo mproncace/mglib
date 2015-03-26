@@ -567,10 +567,10 @@ public class MGPlayer implements Metadatable {
 	public boolean equals(Object p) {
 		if (p instanceof MGPlayer) {
 			MGPlayer mp = (MGPlayer)p;
-			return plugin.equals(mp.getPlugin())
-					&& name.equals(mp.getName())
-					&& arena.equals(mp.getArena())
-					&& isSpectating() == mp.isSpectating();
+			return plugin.equals(mp.getPlugin()) &&
+					name.equals(mp.getName()) &&
+					arena.equals(mp.getArena()) &&
+					isSpectating() == mp.isSpectating();
 		}
 		return false;
 	}

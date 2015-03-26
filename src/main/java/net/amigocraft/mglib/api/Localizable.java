@@ -58,6 +58,26 @@ public interface Localizable {
 	Object[] getReplacementSequences();
 
 	/**
+	 * Concatenates this Localizable with another into a single new one.
+	 *
+	 * @param localizable The Localizable to concatenate
+	 * @param separator The string to separate the two Localizables with. If
+	 *                  omitted, this will default to a space character.
+	 * @return The new combined Localizable
+	 * @since 0.5.0
+	 */
+	Localizable concat(Localizable localizable, CharSequence separator);
+
+	/**
+	 * Concatenates this Localizable with another into a single new one.
+	 *
+	 * @param localizable The Localizable to concatenate
+	 * @return The new combined Localizable
+	 * @since 0.5.0
+	 */
+	Localizable concat(Localizable localizable);
+
+	/**
 	 * Attempts to localize this message based on the server's defined locale.
 	 *
 	 * @return The message localized as requested if possible; otherwise the

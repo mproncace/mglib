@@ -24,10 +24,12 @@
 package net.amigocraft.mglib.impl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.amigocraft.mglib.Main;
 import net.amigocraft.mglib.UUIDFetcher;
@@ -50,6 +52,14 @@ public class BukkitLocalizable implements Localizable {
 	private final String key;
 	private final Object[] replacements;
 	private final Map<String, String> locales;
+
+	protected BukkitLocalizable() {
+		this.parent = null;
+		this.subParent = null;
+		this.key = null;
+		this.replacements = null;
+		this.locales = null;
+	}
 
 	BukkitLocalizable(BukkitLocale parent, String key, Object... replacements) {
 		this.parent = parent;
@@ -106,6 +116,29 @@ public class BukkitLocalizable implements Localizable {
 	}
 
 	@Override
+	public Localizable concat(Localizable localizable, CharSequence separator) {
+		List<Localizable> elClone = Lists.newLinkedList();
+		List<CharSequence> sepClone = Lists.newLinkedList();
+		if (localizable instanceof CombinedLocalizable) {
+			elClone.addAll(((CombinedLocalizable)localizable).elements);
+			elClone.set(0, this);
+			sepClone.addAll(((CombinedLocalizable)localizable).separators);
+			sepClone.set(0, separator);
+		}
+		else {
+			elClone.add(this);
+			elClone.add(localizable);
+			sepClone.add(separator);
+		}
+		return new CombinedLocalizable((Localizable[])elClone.toArray(), (CharSequence[])sepClone.toArray());
+	}
+
+	@Override
+	public Localizable concat(Localizable localizable) {
+		return this.concat(localizable, " ");
+	}
+
+	@Override
 	public String localize() {
 		return this.localize(Main.getServerLocale());
 	}
@@ -116,9 +149,9 @@ public class BukkitLocalizable implements Localizable {
 		if (getLocales().containsKey(locale)) {
 			String message = getLocales().get(locale);
 			for (int i = 0; i < getReplacementSequences().length; i++) {
-				String repl = getReplacementSequences()[i] instanceof Localizable
-				              ? ((Localizable)getReplacementSequences()[i]).localize(locale)
-				              : getReplacementSequences()[i].toString();
+				String repl = getReplacementSequences()[i] instanceof Localizable ?
+				              ((Localizable)getReplacementSequences()[i]).localize(locale) :
+				              getReplacementSequences()[i].toString();
 				message = message.replaceAll("%" + (i + 1), repl);
 			}
 			return message;
