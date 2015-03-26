@@ -206,9 +206,8 @@ public class Main extends JavaPlugin {
 		if (label.equalsIgnoreCase("mglib")) {
 			MGUtil.sendToSender(
 					sender,
-					locale.getMessage("plugin.event.info"),
-					Color.LIGHT_PURPLE,
-					getDescription().getVersion(), this.getDescription().getAuthors().get(0)
+					locale.getMessage("plugin.event.info", getDescription().getVersion(), this.getDescription().getAuthors().get(0)),
+					Color.LIGHT_PURPLE
 			);
 			return true;
 		}

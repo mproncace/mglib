@@ -35,7 +35,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +140,7 @@ public class UUIDFetcher implements Callable<Map<String, UUID>> {
 		if (uuids.containsKey(name)) {
 			return uuids.get(name);
 		}
-		UUID uuid = new UUIDFetcher(Arrays.asList(name)).call().get(name);
+		UUID uuid = new UUIDFetcher(Collections.singletonList(name)).call().get(name);
 		UUIDFetcher.addUUID(name, uuid);
 		return uuid;
 	}

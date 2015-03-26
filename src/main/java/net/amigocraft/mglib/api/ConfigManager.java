@@ -380,7 +380,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyArenaColor() {
-		return ChatColor.getByChar(lobbyColors.get("arena").getCode());
+		return ChatColor.valueOf(lobbyColors.get("arena").name());
 	}
 
 	/**
@@ -402,7 +402,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyArenaColor(ChatColor color) {
-		setLobbyArenaColor(Color.fromCode(color.getChar()));
+		setLobbyArenaColor(Color.valueOf(color.name()));
 	}
 
 	/**
@@ -413,7 +413,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyWaitingColor() {
-		return ChatColor.getByChar(lobbyColors.get("waiting").getCode());
+		return ChatColor.valueOf(lobbyColors.get("waiting").name());
 	}
 
 	/**
@@ -437,7 +437,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyWaitingColor(ChatColor color) {
-		setLobbyWaitingColor(Color.fromCode(color.getChar()));
+		setLobbyWaitingColor(Color.valueOf(color.name()));
 	}
 
 	/**
@@ -449,7 +449,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyPreparingColor() {
-		return ChatColor.getByChar(lobbyColors.get("preparing").getCode());
+		return ChatColor.valueOf(lobbyColors.get("preparing").name());
 	}
 
 	/**
@@ -475,7 +475,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyPreparingColor(ChatColor color) {
-		setLobbyPreparingColor(Color.fromCode(color.getChar()));
+		setLobbyPreparingColor(Color.valueOf(color.name()));
 	}
 
 	/**
@@ -486,7 +486,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyPlayingColor() {
-		return ChatColor.getByChar(lobbyColors.get("playing").getCode());
+		return ChatColor.valueOf(lobbyColors.get("playing").name());
 	}
 
 	/**
@@ -510,7 +510,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyPlayingColor(ChatColor color) {
-		setLobbyPlayingColor(Color.fromCode(color.getChar()));
+		setLobbyPlayingColor(Color.valueOf(color.name()));
 	}
 
 	/**
@@ -522,7 +522,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyResettingColor() {
-		return ChatColor.getByChar(lobbyColors.get("resetting").getCode());
+		return ChatColor.valueOf(lobbyColors.get("resetting").name());
 	}
 
 	/**
@@ -548,7 +548,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyResettingColor(ChatColor color) {
-		lobbyColors.put("resetting", Color.fromCode(color.getChar()));
+		lobbyColors.put("resetting", Color.valueOf(color.name()));
 	}
 
 	/**
@@ -560,7 +560,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyTimeColor() {
-		return ChatColor.getByChar(lobbyColors.get("time").getCode());
+		return ChatColor.valueOf(lobbyColors.get("time").name());
 	}
 
 	/**
@@ -586,7 +586,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyTimeColor(ChatColor color) {
-		lobbyColors.put("time", Color.fromCode(color.getChar()));
+		lobbyColors.put("time", Color.valueOf(color.name()));
 	}
 
 	/**
@@ -598,7 +598,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyTimeWarningColor() {
-		return ChatColor.getByChar(lobbyColors.get("time-warning").getCode());
+		return ChatColor.valueOf(lobbyColors.get("time-warning").name());
 	}
 
 	/**
@@ -624,7 +624,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyTimeWarningColor(ChatColor color) {
-		lobbyColors.put("time-warning", Color.fromCode(color.getChar()));
+		lobbyColors.put("time-warning", Color.valueOf(color.name()));
 	}
 
 	/**
@@ -635,7 +635,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyTimeInfiniteColor() {
-		return ChatColor.getByChar(lobbyColors.get("time-infinite").getCode());
+		return ChatColor.valueOf(lobbyColors.get("time-infinite").name());
 	}
 
 	/**
@@ -659,7 +659,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyTimeInfiniteColor(ChatColor color) {
-		lobbyColors.put("time-infinite", Color.fromCode(color.getChar()));
+		lobbyColors.put("time-infinite", Color.valueOf(color.name()));
 	}
 
 	/**
@@ -671,7 +671,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyPlayerCountColor() {
-		return ChatColor.getByChar(lobbyColors.get("player-count").getCode());
+		return ChatColor.valueOf(lobbyColors.get("player-count").name());
 	}
 
 	/**
@@ -696,8 +696,9 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	@Deprecated
+	@SuppressWarnings("deprecation")
 	public void setLobbyPlayerCountColor(ChatColor color) {
-		lobbyColors.put("player-count", Color.fromCode(color.getChar()));
+		lobbyColors.put("player-count", Color.valueOf(color.name()));
 	}
 
 	/**
@@ -708,7 +709,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyPlayerCountFullColor() {
-		return ChatColor.getByChar(lobbyColors.get("player-count-full").getCode());
+		return ChatColor.valueOf(lobbyColors.get("player-count-full").name());
 	}
 
 	/**
@@ -732,7 +733,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyPlayerCountFullColor(ChatColor color) {
-		lobbyColors.put("player-count-full", Color.fromCode(color.getChar()));
+		lobbyColors.put("player-count-full", Color.valueOf(color.name()));
 	}
 
 	/**
@@ -758,7 +759,7 @@ public class ConfigManager {
 	 * @since 0.1.0
 	 */
 	public ChatColor getLobbyColorAttribute(String key) {
-		return ChatColor.getByChar(lobbyColors.get(key).getCode());
+		return ChatColor.valueOf(lobbyColors.get(key).name());
 	}
 
 	/**
@@ -788,7 +789,7 @@ public class ConfigManager {
 	 */
 	@Deprecated
 	public void setLobbyColor(String key, ChatColor color) {
-		lobbyColors.put(key, Color.fromCode(color.getChar()));
+		lobbyColors.put(key, Color.valueOf(color.name()));
 	}
 
 	/**

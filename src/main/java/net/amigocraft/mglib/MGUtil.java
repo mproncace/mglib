@@ -346,16 +346,14 @@ public class MGUtil {
 	 * @param sender the CommandSender to send the message to
 	 * @param message the message to send
 	 * @param color the color to prefix the message with
-	 * @param replacements an array or vararg list of
-	 * strings to replace placeholder sequences (%i) with
 	 * @since 0.5.0
 	 */
-	public static void sendToSender(CommandSender sender, Localizable message, Color color, String... replacements) {
+	public static void sendToSender(CommandSender sender, Localizable message, Color color) {
 		if (sender instanceof Player) {
-			message.sendTo(((Player)sender).getUniqueId(), color, replacements);
+			message.sendTo(((Player)sender).getUniqueId(), color);
 		}
 		else {
-			sender.sendMessage((color != null ? ChatColor.valueOf(color.name()) : "") + message.localize(replacements));
+			sender.sendMessage((color != null ? ChatColor.valueOf(color.name()) : "") + message.localize());
 		}
 	}
 
@@ -363,11 +361,9 @@ public class MGUtil {
 	 * Sends a {@link Localizable} to a {@link CommandSender}.
 	 * @param sender the CommandSender to send the message to
 	 * @param message the message to send
-	 * @param replacements an array or vararg list of
-	 * strings to replace placeholder sequences (%i) with
 	 * @since 0.5.0
 	 */
-	public static void sendToSender(CommandSender sender, Localizable message, String... replacements) {
-		sendToSender(sender, message, null, replacements);
+	public static void sendToSender(CommandSender sender, Localizable message) {
+		sendToSender(sender, message, null);
 	}
 }

@@ -79,12 +79,12 @@ public class BukkitLocale extends Locale {
 
 	@Override
 	public String _INVALID_getMessage(String key, String... replacements) {
-		return this.getMessage(key).localize(replacements);
+		return this.getMessage(key, replacements).localize();
 	}
 
 	@Override
-	public Localizable getMessage(String key) {
-		return this.messages.containsKey(key) ? this.messages.get(key) : new BukkitLocalizable(this, key);
+	public Localizable getMessage(String key, Object... replacements) {
+		return this.messages.containsKey(key) ? this.messages.get(key).createChild(replacements) : new BukkitLocalizable(this, key);
 	}
 
 	@Override

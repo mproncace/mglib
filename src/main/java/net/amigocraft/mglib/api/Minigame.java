@@ -214,7 +214,7 @@ public class Minigame {
 				rounds.put(arena.toLowerCase(), r); // register arena with MGLib
 			}
 			catch (NoSuchMethodException ex) { // thrown when the required constructor does not exist
-				Main.log(locale.getMessage("plugin.alert.bad-constructor").localize("Round", plugin.getName()), LogLevel.SEVERE);
+				Main.log(locale.getMessage("plugin.alert.bad-constructor", "Round", plugin.getName()).localize(), LogLevel.SEVERE);
 				ex.printStackTrace();
 			}
 			catch (InvocationTargetException ex) { // any exception thrown from the called constructor
@@ -224,11 +224,11 @@ public class Minigame {
 				ex.printStackTrace();
 			}
 			catch (InstantiationException ex) { // if this happens then the overriding plugin screwed something up
-				Main.log(locale.getMessage("plugin.alert.bad-constructor").localize("Round", plugin.getName()), LogLevel.SEVERE);
+				Main.log(locale.getMessage("plugin.alert.bad-constructor", "Round", plugin.getName()).localize(), LogLevel.SEVERE);
 				ex.printStackTrace();
 			}
 			catch (IllegalAccessException ex) { // thrown if the called method from the overriding class is not public
-				Main.log(locale.getMessage("plugin.alert.invisible-constructor").localize("Round", plugin.getName()), LogLevel.SEVERE);
+				Main.log(locale.getMessage("plugin.alert.invisible-constructor", "Round", plugin.getName()).localize(), LogLevel.SEVERE);
 				ex.printStackTrace();
 			}
 		}

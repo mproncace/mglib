@@ -277,7 +277,7 @@ public class LobbyManager {
 						signs.put(MGUtil.fromBukkitLocation(l), ls);
 					}
 					else {
-						Main.log.warning(Main.locale.getMessage("lobby.alert.incomplete").localize(plugin, k));
+						Main.log.warning(Main.locale.getMessage("lobby.alert.incomplete", k).localize(plugin));
 					}
 				}
 			}

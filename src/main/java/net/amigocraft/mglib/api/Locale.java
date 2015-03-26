@@ -95,10 +95,15 @@ public abstract class Locale {
 	 * index 1.</p>
 	 *
 	 * @param key the key of the message to retrieve
+	 * @param replacements an array or vararg list of objects to replace
+	 *                     placeholder sequences (%i) with. If an object in this
+	 *                     list is an instance of a Localizable, it will be
+	 *                     localized appropriately. Otherwise, toString() will
+	 *                     be invoked upon it.
 	 * @return the {@link Localizable} associated with the given key
 	 * @since 0.5.0
 	 */
-	public abstract Localizable getMessage(String key);
+	public abstract Localizable getMessage(String key, Object... replacements);
 
 	/**
 	 * Returns whether this object was loaded from a legacy

@@ -25,8 +25,6 @@ package net.amigocraft.mglib.api;
 
 import java.util.UUID;
 
-import net.amigocraft.mglib.exception.PlayerOfflineException;
-
 /**
  * Represents a message which may be retrieved in multiple locales.
  *
@@ -40,7 +38,7 @@ public interface Localizable {
 	 * @return The key associated with this {@link Localizable}
 	 * @since 0.5.0
 	 */
-	public String getKey();
+	String getKey();
 
 	/**
 	 * Gets the parent {@link Locale} of this message.
@@ -48,23 +46,26 @@ public interface Localizable {
 	 * @return the parent {@link Locale} of this message
 	 * @since 0.5.0
 	 */
-	public Locale getParent();
+	Locale getParent();
+
+	/**
+	 * Returns an array of objects which will be used to replace wildcard
+	 * sequences, in respective order.
+	 * @return an array of objects which will be used to replace wildcard
+	 * sequences, in respective order
+	 * @since 0.5.0
+	 */
+	Object[] getReplacementSequences();
 
 	/**
 	 * Attempts to localize this message based on the server's defined locale.
 	 *
-	 * <p>Please note that this does not accept locale codes. If you wish to
-	 * localize this message in a specific language, you should instead use
-	 * {@link Localizable#localizeIn(String, String...)}.</p>
-	 *
-	 * @param replacements An array of strings to replace any wildcard patterns
-	 *                     with in the returned message
 	 * @return The message localized as requested if possible; otherwise the
 	 *         message localized in the default locale if possible; otherwise
 	 *         the raw localization key
 	 * @since 0.5.0
 	 */
-	public String localize(String... replacements);
+	String localize();
 
 	/**
 	 * Attempts to localize this message in the given locale.
@@ -72,22 +73,18 @@ public interface Localizable {
 	 * @param locale The name of the locale to localize in. This should follow
 	 *               the ISO 639-1 and ISO 3166-1 standards, respectively (e.g.
 	 *               en_US or enUS).
-	 * @param replacements An array of strings to replace any wildcard patterns
-	 *                     with in the returned message
 	 * @return The message localized as requested if possible; otherwise the
 	 *         message localized in the default locale if possible; otherwise
 	 *         the raw localization key
 	 * @since 0.5.0
 	 */
-	public String localizeIn(String locale, String... replacements);
+	String localize(String locale);
 
 	/**
 	 * Attempts to localize this message for the player with the given username.
 	 *
 	 * @param playerName The username of the player to localize this message
 	 *                   for.
-	 * @param replacements An array of strings to replace any wildcard patterns
-	 *                     with in the returned message
 	 * @return The message localized as requested if possible; otherwise the
 	 *         message localized in the default locale if possible; otherwise
 	 *         the raw localization key
@@ -95,14 +92,12 @@ public interface Localizable {
 	 *                                  cannot be found
 	 * @since 0.5.0
 	 */
-	public String localizeFor(String playerName, String... replacements) throws IllegalArgumentException;
+	String localizeFor(String playerName) throws IllegalArgumentException;
 
 	/**
 	 * Attempts to localize this message for the player with the given UUID.
 	 *
 	 * @param playerUuid The UUID of the player to localize this message for.
-	 * @param replacements An array of strings to replace any wildcard patterns
-	 *                     with in the returned message
 	 * @return The message localized as requested if possible; otherwise the
 	 *         message localized in the default locale if possible; otherwise
 	 *         the raw localization key
@@ -110,14 +105,12 @@ public interface Localizable {
 	 *                                  be found
 	 * @since 0.5.0
 	 */
-	public String localizeFor(UUID playerUuid, String... replacements) throws IllegalArgumentException;
+	String localizeFor(UUID playerUuid) throws IllegalArgumentException;
 
 	/**
 	 * Attempts to localize this message for the given {@link MGPlayer}.
 	 *
 	 * @param player The {@link MGPlayer} to localize this message for
-	 * @param replacements An array of strings to replace any wildcard patterns
-	 *                     with in the returned message
 	 * @return The message localized as requested if possible; otherwise the
 	 *         message localized in the default locale if possible; otherwise
 	 *         the raw localization key
@@ -125,7 +118,7 @@ public interface Localizable {
 	 *                                  cannot be found
 	 * @since 0.5.0
 	 */
-	public String localizeFor(MGPlayer player, String... replacements) throws IllegalArgumentException;
+	String localizeFor(MGPlayer player) throws IllegalArgumentException;
 
 	/**
 	 * Attempts to localize this message for the player with the given username
@@ -133,13 +126,11 @@ public interface Localizable {
 	 *
 	 * @param playerName The username of the player to send the localized
 	 *                   message to
-	 * @param replacements An array of strings to replace any wildcard patterns
-	 *                     with in the returned message
 	 * @throws IllegalArgumentException If a player with the given username
 	 *                                  cannot be found
 	 * @since 0.5.0
 	 */
-	public void sendTo(String playerName, String... replacements) throws IllegalArgumentException;
+	void sendTo(String playerName) throws IllegalArgumentException;
 
 	/**
 	 * Attempts to localize this message for the player with the given username
@@ -148,13 +139,11 @@ public interface Localizable {
 	 * @param playerName The username of the player to send the localized
 	 *                   message to
 	 * @param color The color to prefix the localized string with
-	 * @param replacements An array of strings to replace any wildcard patterns
-	 *                     with in the returned message
 	 * @throws IllegalArgumentException If a player with the given username
 	 *                                  cannot be found
 	 * @since 0.5.0
 	 */
-	public void sendTo(String playerName, Color color, String... replacements) throws IllegalArgumentException;
+	void sendTo(String playerName, Color color) throws IllegalArgumentException;
 
 	/**
 	 * Attempts to localize this message for the player with the given username
@@ -162,26 +151,21 @@ public interface Localizable {
 	 *
 	 * @param playerUuid The username of the player to send the localized
 	 *                   message to
-	 * @param replacements An array of strings to replace any wildcard patterns
-	 *                     with in the returned message
 	 * @throws IllegalArgumentException If a player with the given username
 	 *                                  cannot be found
 	 * @since 0.5.0
 	 */
-	public void sendTo(UUID playerUuid, String... replacements) throws IllegalArgumentException;
+	void sendTo(UUID playerUuid) throws IllegalArgumentException;
 
 	/**
 	 * Attempts to localize this message for the player with the given UUID and
 	 * send it to them prefixed by the specified chat color.
 	 *
-	 * @param playerUuid The UUID of the player to send the localized message
-	 *                   to
+	 * @param playerUuid The UUID of the player to send the localized message to
 	 * @param color The color to prefix the localized string with
-	 * @param replacements An array of strings to replace any wildcard patterns
-	 *                     with in the returned message
 	 * @throws IllegalArgumentException If a player with the given username
 	 *                                  cannot be found
 	 * @since 0.5.0
 	 */
-	public void sendTo(UUID playerUuid, Color color, String... replacements) throws IllegalArgumentException;
+	void sendTo(UUID playerUuid, Color color) throws IllegalArgumentException;
 }

@@ -45,18 +45,49 @@ public class BukkitLocalizable implements Localizable {
 
 	private static final String FALLBACK_LOCALE = "enus";
 
-	private Locale parent;
-	private String key;
-	private Map<String, String> locales = Maps.newHashMap();
+	private final BukkitLocale parent;
+	private final BukkitLocalizable subParent;
+	private final String key;
+	private final Object[] replacements;
+	private final Map<String, String> locales;
 
-	BukkitLocalizable(Locale parent, String key) {
+	BukkitLocalizable(BukkitLocale parent, String key, Object... replacements) {
 		this.parent = parent;
+		this.subParent = null;
 		this.key = key;
+		this.replacements = replacements;
+		this.locales = Maps.newHashMap();
 	}
 
+	private BukkitLocalizable(BukkitLocalizable parent, String key, Object... replacements) {
+		this.parent = null;
+		this.subParent = parent;
+		this.key = key;
+		this.replacements = replacements;
+		this.locales = null;
+	}
+
+	/**
+	 * Adds a translation to this Localizable.
+	 * @param locale The locale code of the new translation
+	 * @param message The translation itself
+	 */
 	void addLocale(String locale, String message) {
 		locale = locale.replace("_", "").replace("-", ""); // normalize locale code
-		locales.put(locale, message);
+		getLocales().put(locale, message);
+	}
+
+	/**
+	 * Creates a child with the given replacement sequences.
+	 * @param replacements The replacement sequences to assign to the child
+	 * @return The new child
+	 */
+	BukkitLocalizable createChild(Object... replacements) {
+		return new BukkitLocalizable(this, this.getKey(), replacements);
+	}
+
+	Map<String, String> getLocales() {
+		return this.subParent == null ? locales : this.subParent.getLocales();
 	}
 
 	@Override
@@ -66,21 +97,29 @@ public class BukkitLocalizable implements Localizable {
 
 	@Override
 	public Locale getParent() {
-		return this.parent;
+		return this.subParent == null ? parent : subParent.getParent();
 	}
 
 	@Override
-	public String localize(String... replacements) {
-		return this.localizeIn(Main.getServerLocale(), replacements);
+	public Object[] getReplacementSequences() {
+		return this.replacements;
 	}
 
 	@Override
-	public String localizeIn(String locale, String... replacements) {
+	public String localize() {
+		return this.localize(Main.getServerLocale());
+	}
+
+	@Override
+	public String localize(String locale) {
 		locale = locale.replace("_", "").replace("-", "").toLowerCase(); // normalize locale code
-		if (locales.containsKey(locale)) {
-			String message = locales.get(locale);
-			for (int i = 0; i < replacements.length; i++) {
-				message = message.replaceAll("%" + (i + 1), replacements[i]);
+		if (getLocales().containsKey(locale)) {
+			String message = getLocales().get(locale);
+			for (int i = 0; i < getReplacementSequences().length; i++) {
+				String repl = getReplacementSequences()[i] instanceof Localizable
+				              ? ((Localizable)getReplacementSequences()[i]).localize(locale)
+				              : getReplacementSequences()[i].toString();
+				message = message.replaceAll("%" + (i + 1), repl);
 			}
 			return message;
 		}
@@ -88,17 +127,17 @@ public class BukkitLocalizable implements Localizable {
 			return this.getKey();
 		}
 		else if (locale.equals(Main.getServerLocale())) {
-			return this.localizeIn(FALLBACK_LOCALE, replacements);
+			return this.localize(FALLBACK_LOCALE);
 		}
 		else {
-			return this.localizeIn(Main.getServerLocale(), replacements);
+			return this.localize(Main.getServerLocale());
 		}
 	}
 
 	@Override
-	public String localizeFor(String playerName, String... replacements) throws IllegalArgumentException {
+	public String localizeFor(String playerName) throws IllegalArgumentException {
 		try {
-			return this.localizeFor(UUIDFetcher.getUUIDOf(playerName), replacements);
+			return this.localizeFor(UUIDFetcher.getUUIDOf(playerName));
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
@@ -110,24 +149,24 @@ public class BukkitLocalizable implements Localizable {
 	}
 
 	@Override
-	public String localizeFor(UUID playerUuid, String... replacements) throws IllegalArgumentException {
+	public String localizeFor(UUID playerUuid) throws IllegalArgumentException {
 		Player player = Bukkit.getPlayer(playerUuid);
 		String locale = null;
 		if (player != null) {
 			locale = NmsUtil.getLocale(player);
 		}
-		return this.localizeIn(locale != null ? locale : Main.getServerLocale(), replacements);
+		return this.localize(locale != null ? locale : Main.getServerLocale());
 	}
 
 	@Override
-	public String localizeFor(MGPlayer player, String... replacements) throws IllegalArgumentException {
-		return this.localizeFor(player.getName(), replacements);
+	public String localizeFor(MGPlayer player) throws IllegalArgumentException {
+		return this.localizeFor(player.getName());
 	}
 
 	@Override
-	public void sendTo(String playerName, String... replacements) throws IllegalArgumentException {
+	public void sendTo(String playerName) throws IllegalArgumentException {
 		try {
-			this.sendTo(UUIDFetcher.getUUIDOf(playerName), replacements);
+			this.sendTo(UUIDFetcher.getUUIDOf(playerName));
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
@@ -138,9 +177,9 @@ public class BukkitLocalizable implements Localizable {
 	}
 
 	@Override
-	public void sendTo(String playerName, Color color, String... replacements) throws IllegalArgumentException {
+	public void sendTo(String playerName, Color color) throws IllegalArgumentException {
 		try {
-			this.sendTo(UUIDFetcher.getUUIDOf(playerName), color, replacements);
+			this.sendTo(UUIDFetcher.getUUIDOf(playerName), color);
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
@@ -151,15 +190,15 @@ public class BukkitLocalizable implements Localizable {
 	}
 
 	@Override
-	public void sendTo(UUID playerUuid, String... replacements) throws IllegalArgumentException {
-		this.sendTo(playerUuid, Color.RESET, replacements);
+	public void sendTo(UUID playerUuid) throws IllegalArgumentException {
+		this.sendTo(playerUuid, Color.RESET);
 	}
 
 	@Override
-	public void sendTo(UUID playerUuid, Color color, String... replacements) throws IllegalArgumentException {
+	public void sendTo(UUID playerUuid, Color color) throws IllegalArgumentException {
 		Player player = Bukkit.getPlayer(playerUuid);
 		if (player != null) {
-			player.sendMessage(ChatColor.valueOf(color.name()) + this.localizeFor(playerUuid, replacements));
+			player.sendMessage(ChatColor.valueOf(color.name()) + this.localizeFor(playerUuid));
 		}
 		else {
 			throw new IllegalArgumentException();

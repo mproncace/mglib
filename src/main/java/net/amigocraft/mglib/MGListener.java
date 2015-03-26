@@ -93,7 +93,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -841,7 +840,7 @@ class MGListener implements Listener {
 								r = mg.createRound(ls.getArena());
 							}
 							catch (NoSuchArenaException ex) {
-								locale.getMessage("error.personal.load-fail").sendTo(e.getPlayer().getName(), Color.RED, ls.getArena());
+								locale.getMessage("error.personal.load-fail", ls.getArena()).sendTo(e.getPlayer().getName(), Color.RED);
 								return;
 							}
 						}

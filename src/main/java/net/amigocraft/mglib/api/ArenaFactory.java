@@ -638,9 +638,9 @@ public class ArenaFactory {
 			return false;
 		}
 		ArenaFactory af = (ArenaFactory)otherArenaFactory;
-		return this.getPlugin().equals(af.getPlugin())
-				&& this.getArena().equals(af.getArena())
-				&& this.getWorld().equals(af.getWorld());
+		return this.getPlugin().equals(af.getPlugin()) &&
+				this.getArena().equals(af.getArena()) &&
+				this.getWorld().equals(af.getWorld());
 	}
 
 	@Override
