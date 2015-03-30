@@ -256,7 +256,7 @@ class MGListener implements Listener {
 								!mg.getConfigManager().isTeamDamageAllowed() &&
 								m1.getTeam() != null &&
 								m2.getTeam() != null &&
-								m1.getTeam().equalsIgnoreCase(m2.getTeam())) {
+								m1.getTeam().equals(m2.getTeam())) {
 							e.setCancelled(true);
 							return;
 						}

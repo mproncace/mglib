@@ -25,6 +25,11 @@ package net.amigocraft.mglib.api;
 
 import static net.amigocraft.mglib.Main.locale;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Random;
+
 import net.amigocraft.mglib.MGUtil;
 import net.amigocraft.mglib.Main;
 import net.amigocraft.mglib.UUIDFetcher;
@@ -38,7 +43,6 @@ import net.amigocraft.mglib.misc.Metadatable;
 import net.amigocraft.mglib.util.NmsUtil;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -47,11 +51,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Random;
 
 /**
  * Represents a player participating in a minigame.
@@ -68,7 +67,7 @@ public class MGPlayer implements Metadatable {
 	private boolean spectating = false;
 	private String prefix = "";
 	private GameMode prevGameMode;
-	private String team = null;
+	private Team team = null;
 	private boolean frozen = false;
 
 	/**
@@ -79,6 +78,24 @@ public class MGPlayer implements Metadatable {
 	 * @param arena  the arena of the player
 	 * @since 0.1.0
 	 */
+	public MGPlayer(String plugin, String name, String arena, Team team) {
+		this.plugin = plugin;
+		this.name = name;
+		this.arena = arena;
+		this.team = team;
+		this.prefix = this.team.getPrefix();
+	}
+	
+	/**
+	 * Creates a new MGPlayer instance.
+	 *
+	 * @deprecated
+	 * @param plugin the plugin to associate the MGPlayer with
+	 * @param name   the username of the player
+	 * @param arena  the arena of the player
+	 * @since 0.1.0
+	 */
+	@Deprecated
 	public MGPlayer(String plugin, String name, String arena) {
 		this.plugin = plugin;
 		this.name = name;
@@ -145,18 +162,18 @@ public class MGPlayer implements Metadatable {
 	 * on a team
 	 * @since 0.3.0
 	 */
-	public String getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 
 	/**
 	 * Sets the name of the team this player is on.
 	 *
-	 * @param team the name of the team this player is on. Set to null for no
+	 * @param team the name of the team this player is on. Set to Team.DEFAULT for no
 	 *             team.
 	 * @since 0.3.0
 	 */
-	public void setTeam(String team) {
+	public void setTeam(Team team) {
 		this.team = team;
 	}
 
